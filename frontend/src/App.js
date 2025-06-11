@@ -145,6 +145,17 @@ function App() {
         </motion.section>
       </motion.div>
 
+      <motion.section variants={itemVariants}>
+          <h2>Things I am learning</h2>
+          <motion.ul variants={containerVariants}>
+            {['Full Stack Development', 'TensorFlow', 'PyTorch', 'OpenAI API'].map((tool, index) => (
+              <motion.li key={tool} variants={itemVariants}>
+                {tool}
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.section>
+
       <RoyAI />
     </motion.div>
   );
