@@ -138,6 +138,7 @@ The frontend will be available at `http://localhost:3000` and the backend at `ht
 - Enhance RoyAI with more advanced AI features
 - Add contact and resume download sections
 - Improve accessibility and SEO
+- Deploy it!
 
 ---
 
