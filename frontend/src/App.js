@@ -44,6 +44,53 @@ function Section({ children, id }) {
   );
 }
 
+const projects = [
+  {
+    title: 'Boxure',
+    description: 'An e-commerce website for selling custom-made blind boxes.',
+    tech: ['React', 'Next.js', 'Node.js', 'Express', 'PostgreSQL', 'Stripe', 'Tailwind CSS', 'Firebase'],
+    link: 'https://github.com/4rd2/Boxure',
+    image: null
+  },
+  {
+    title: 'Spotify Remote',
+    description: 'A remote control for Spotify using C++ in Arduino. Uses bluetooth and ESP32 to control Spotify.',
+    tech: ['Arduino', 'C++', 'ESP32', 'Bluetooth', 'Batch'],
+    link: 'https://github.com/royd2023/SpotifyRemote',
+    image: null
+  },
+  {
+    title: 'FPS using Godot Engine',
+    description: 'A first person shooter game using Godot Engine. Basic WASD controls, movement like crouching, jumping and sprinting and has enemies and a health bar. Different weapons as well.',
+    tech: ['Godot Engine', 'GDScript'],
+    link: 'https://github.com/royd2023/GodotFPS',
+    image: null
+  },
+  {
+    title: 'Hand Detection Zoom App',
+    description: 'An app like zoom but with hand detection. Built for hackathon Code4Cause2025.',
+    tech: ['React', 'JavaScript', 'CSS', 'Python'],
+    link: 'https://github.com/royd2023/Code4Cause2025',
+    image: null
+  },
+  {
+    title: 'Red Black Tree Implementation',
+    description: 'A red black tree implementation in C. Has insert, delete, search, and print functions.',
+    tech: ['C++', 'Makefile'],
+    link: 'https://github.com/royd2023/RedBlackTree',
+    image: null
+  },
+  {
+    title: 'Data Visualization for Data IO 2025',
+    description: 'Uses Jupyter Notebook, pandas, python, and other libraries that visualizes data from a data set on EV charging stations around the United States.',
+    tech: ['Python', 'Matplotlib', 'Jupyter Notebook', 'Pandas'],
+    link: 'https://github.com/royd2023/DataI-O-2025',
+    image: null
+  }
+  
+  
+];
+
 function App() {
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -180,6 +227,37 @@ function App() {
               </motion.li>
             ))}
           </motion.ul>
+        </motion.div>
+      </Section>
+
+      {/* Projects Section */}
+      <Section id="projects">
+        <motion.div className="section-content projects-section">
+          <h2>Projects</h2>
+          <motion.div className="projects-carousel" initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            {projects.map((project, idx) => (
+              <motion.div
+                className="project-card"
+                key={project.title}
+                variants={itemVariants}
+                whileHover={{ scale: 1.05, boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+                transition={{ type: 'spring', stiffness: 200 }}
+              >
+                <div className="project-card-content">
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
+                  <div className="project-tech">
+                    {project.tech.map((t) => (
+                      <span key={t}>{t}</span>
+                    ))}
+                  </div>
+                  {project.link && (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">View Repo</a>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </motion.div>
       </Section>
 

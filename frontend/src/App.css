@@ -190,3 +190,113 @@ li:hover {
 html {
   scroll-behavior: smooth;
 }
+
+.projects-section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.projects-carousel {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+  margin-top: 2rem;
+  scrollbar-width: thin;
+  scrollbar-color: #4a5568 #1a1c2e;
+}
+
+.projects-carousel::-webkit-scrollbar {
+  height: 10px;
+}
+.projects-carousel::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 8px;
+}
+.projects-carousel::-webkit-scrollbar-track {
+  background: #1a1c2e;
+}
+
+.project-card {
+  min-width: 320px;
+  max-width: 340px;
+  background: rgba(40, 42, 58, 0.95);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  scroll-snap-align: start;
+  transition: box-shadow 0.3s, transform 0.3s;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.project-card-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #e2e8f0;
+}
+
+.project-card-content p {
+  margin: 0 0 1rem 0;
+  color: #a0aec0;
+  font-size: 1rem;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.project-tech span {
+  background: #2d1b4d;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 0.3em 0.7em;
+  font-size: 0.9em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.project-link {
+  margin-top: auto;
+  color: #a78bfa;
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid #a78bfa;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.project-link:hover {
+  color: #fff;
+  border-color: #fff;
+}
+
+@media (max-width: 900px) {
+  .projects-carousel {
+    gap: 1rem;
+  }
+  .project-card {
+    min-width: 260px;
+    max-width: 90vw;
+    padding: 1.2rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .projects-section {
+    padding: 0.5rem;
+  }
+  .projects-carousel {
+    gap: 0.5rem;
+  }
+  .project-card {
+    min-width: 220px;
+    padding: 1rem 0.5rem;
+  }
+}
