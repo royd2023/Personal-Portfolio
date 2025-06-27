@@ -4,6 +4,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import RoyAI from './components/RoyAI';
 import './components/RoyAI.css';
 import { FaGithub } from 'react-icons/fa';
+import { FaReact, FaNodeJs, FaDatabase, FaPython, FaJava, FaJs, FaHtml5, FaCss3Alt, FaDocker, FaGitAlt } from 'react-icons/fa';
+import { SiExpress, SiFlask, SiPostgresql, SiJupyter, SiCplusplus, SiC, SiArduino, SiFirebase, SiTailwindcss, SiGnubash, SiGodotengine, SiPandas, SiMongodb, SiTypescript, SiGnubash as SiBash, SiGnubash as SiBatch, SiGnubash as SiMakefile } from 'react-icons/si';
 
 // Animation variants
 const sectionVariants = {
@@ -91,6 +93,17 @@ const projects = [
   
 ];
 
+const languageList = [
+  { name: 'Python', icon: <FaPython title="Python" /> },
+  { name: 'JavaScript', icon: <FaJs title="JavaScript" /> },
+  { name: 'Java', icon: <FaJava title="Java" /> },
+  { name: 'C++', icon: <SiCplusplus title="C++" /> },
+  { name: 'C', icon: <SiC title="C" /> },
+  { name: 'SQL', icon: <FaDatabase title="SQL" /> },
+  { name: 'x86-64 Assembly', icon: null },
+  { name: 'HTML / CSS', icon: <><FaHtml5 title="HTML5" style={{marginRight: '0.2em'}} /><FaCss3Alt title="CSS3" /></> },
+];
+
 function App() {
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -152,84 +165,6 @@ function App() {
         </motion.div>
       </Section>
 
-      <Section id="languages">
-        <motion.div className="section-content">
-          <h2>Languages</h2>
-          <motion.ul variants={itemVariants}>
-            {['Python', 'JavaScript', 'Java', 'C++', 'C', 'SQL', 'x86-64 Assembly', 'HTML / CSS'].map((lang) => (
-              <motion.li key={lang} variants={itemVariants}>
-                {lang}
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
-      </Section>
-
-      <Section id="frontend">
-        <motion.div className="section-content">
-          <h2>Frontend</h2>
-          <motion.ul variants={itemVariants}>
-            {['React'].map((tech) => (
-              <motion.li key={tech} variants={itemVariants}>
-                {tech}
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
-      </Section>
-
-      <Section id="backend">
-        <motion.div className="section-content">
-          <h2>Backend</h2>
-          <motion.ul variants={itemVariants}>
-            {['Node.js', 'Express.js', 'Flask'].map((tech) => (
-              <motion.li key={tech} variants={itemVariants}>
-                {tech}
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
-      </Section>
-
-      <Section id="databases">
-        <motion.div className="section-content">
-          <h2>Databases</h2>
-          <motion.ul variants={itemVariants}>
-            {['PostgreSQL'].map((db) => (
-              <motion.li key={db} variants={itemVariants}>
-                {db}
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
-      </Section>
-
-      <Section id="tools">
-        <motion.div className="section-content">
-          <h2>Tools</h2>
-          <motion.ul variants={itemVariants}>
-            {['Git', 'Docker', 'VS Code', 'Jupyter Notebook'].map((tool) => (
-              <motion.li key={tool} variants={itemVariants}>
-                {tool}
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
-      </Section>
-
-      <Section id="learning">
-        <motion.div className="section-content">
-          <h2>Things I am learning</h2>
-          <motion.ul variants={itemVariants}>
-            {['Full Stack Development', 'TensorFlow', 'PyTorch', 'OpenAI API'].map((tool) => (
-              <motion.li key={tool} variants={itemVariants}>
-                {tool}
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
-      </Section>
-
       {/* Projects Section */}
       <Section id="projects">
         <motion.div className="section-content projects-section">
@@ -260,6 +195,104 @@ function App() {
           </motion.div>
         </motion.div>
       </Section>
+
+      <Section id="languages">
+        <motion.div className="section-content">
+          <h2>Languages</h2>
+          <motion.ul variants={itemVariants}>
+            {languageList.map(({ name, icon }) => (
+              <motion.li key={name} variants={itemVariants} className="language-li">
+                {icon && <span className="lang-icon">{icon}</span>}
+                {name}
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.div>
+      </Section>
+
+      {/* Tech Stack Section */}
+      <Section id="tech-stack">
+        <motion.div className="section-content tech-stack-section">
+          <h2>Tech Stack</h2>
+          <div className="tech-stack-boxes">
+            {/* Frontend */}
+            <div className="tech-box">
+              <h3>Frontend</h3>
+              <div className="tech-icons">
+                <FaReact title="React" />
+                <FaHtml5 title="HTML5" />
+                <FaCss3Alt title="CSS3" />
+                <SiTailwindcss title="Tailwind CSS" />
+                <FaJs title="JavaScript" />
+              </div>
+              <ul>
+                <li>React</li>
+                <li>HTML / CSS</li>
+                <li>Tailwind CSS</li>
+                <li>JavaScript</li>
+              </ul>
+            </div>
+            {/* Backend */}
+            <div className="tech-box">
+              <h3>Backend</h3>
+              <div className="tech-icons">
+                <FaNodeJs title="Node.js" />
+                <SiExpress title="Express.js" />
+                <SiFlask title="Flask" />
+                <SiGnubash title="Bash" />
+              </div>
+              <ul>
+                <li>Node.js</li>
+                <li>Express.js</li>
+                <li>Flask</li>
+                <li>Bash</li>
+              </ul>
+            </div>
+            {/* Database */}
+            <div className="tech-box">
+              <h3>Database</h3>
+              <div className="tech-icons">
+                <SiPostgresql title="PostgreSQL" />
+                <SiFirebase title="Firebase" />
+                <FaDatabase title="SQL" />
+              </div>
+              <ul>
+                <li>PostgreSQL</li>
+                <li>Firebase</li>
+                <li>SQL</li>
+              </ul>
+            </div>
+          </div>
+        </motion.div>
+      </Section>
+
+      <Section id="tools">
+        <motion.div className="section-content">
+          <h2>Tools</h2>
+          <motion.ul variants={itemVariants}>
+            {['Git', 'Docker', 'VS Code', 'Jupyter Notebook'].map((tool) => (
+              <motion.li key={tool} variants={itemVariants}>
+                {tool}
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.div>
+      </Section>
+
+      <Section id="learning">
+        <motion.div className="section-content">
+          <h2>Things I am learning</h2>
+          <motion.ul variants={itemVariants}>
+            {['Full Stack Development', 'TensorFlow', 'PyTorch', 'OpenAI API'].map((tool) => (
+              <motion.li key={tool} variants={itemVariants}>
+                {tool}
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.div>
+      </Section>
+
+      
 
       <RoyAI />
     </div>
