@@ -59,7 +59,7 @@ const projects = [
     description: 'A remote control for Spotify using C++ in Arduino. Uses bluetooth and ESP32 to control Spotify.',
     tech: ['Arduino', 'C++', 'ESP32', 'Bluetooth', 'Batch'],
     link: 'https://github.com/royd2023/SpotifyRemote',
-    image: null
+    image: 'ece2360final.jpg'
   },
   {
     title: 'FPS using Godot Engine',
@@ -80,7 +80,7 @@ const projects = [
     description: 'A red black tree implementation in C. Has insert, delete, search, and print functions.',
     tech: ['C++', 'Makefile'],
     link: 'https://github.com/royd2023/RedBlackTree',
-    image: null
+    image: 'redblacktree.jpg'
   },
   {
     title: 'Data Visualization for Data IO 2025',
@@ -120,18 +120,31 @@ function App() {
         >
           Roy Dinh
         </motion.h1>
-        <motion.a
-          href="https://github.com/royd2023"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="github-link"
-          variants={itemVariants}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <FaGithub />
-          <span>GitHub</span>
-        </motion.a>
+        <div className="top-bar-links">
+          <motion.a
+            href="https://github.com/royd2023"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="github-link"
+            variants={itemVariants}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaGithub />
+            <span>GitHub</span>
+          </motion.a>
+          <motion.a
+            href="https://drive.google.com/file/d/1kBNecPuSunH1yplM9ANGcgYTxrLY1uPv/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="github-link"
+            variants={itemVariants}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Resume
+          </motion.a>
+        </div>
       </motion.div>
 
       <Section id="intro">
@@ -153,15 +166,50 @@ function App() {
               whileTap={{ scale: 0.95 }}
             >
               <img 
-                src="/siana-sunghee-park-mk2-small.jpg" 
+                src="20230429_185703.jpg" 
                 alt="Roy Dinh"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/siana-sunghee-park-mk2-small.jpg';
+                  e.target.src = '20230429_185703.jpg';
                 }}
               />
             </motion.div>
           </motion.div>
+          <motion.div className="extra-photos-row" variants={itemVariants}>
+            {["20230430_171031(1).jpg", "20230430_174045.jpg"].map((filename, idx) => (
+              <div className="extra-photo-frame" key={filename}>
+                <img src={filename} alt={`Roy extra ${idx + 1}`} />
+              </div>
+            ))}
+          </motion.div>
+          <motion.p variants={itemVariants} className="intro-bio">
+          <span className="bio-greeting">👋 Hi, I'm <b>Roy Dinh</b>!</span><br /><br />
+          <b><span className="osu-uni"><img src="osu-logo.svg" alt="Ohio State University Logo" className="osu-icon" /> CS @ The Ohio State University (Class of 2027)</span></b> <br />
+          <span className="bio-highlight">Web dev, game design, and educational tech enthusiast.</span>
+          <br /><br />
+          <b>What I'm building:</b>
+          <ul className="bio-list">
+            <li>
+              <b>Boxure</b>: A fullstack e-commerce platform for blind box collectibles.<br />
+              <span className="bio-tech">Node.js, Express, PostgreSQL, Firebase, Stripe, React</span>
+            </li>
+            <li>
+              <b>Code 4 Community</b>: Volunteering to teach programming through games.<br />
+              <span className="bio-tech">Phaser, JavaScript, HTML, CSS</span>
+            </li>
+            <li>
+              <b>OSU Underwater Robotics Team</b>: GUI and web interface contributions.
+            </li>
+          </ul>
+          <b>What I love:</b>
+          <ul className="bio-list">
+            <li>Building things that are <span className="bio-highlight">engaging, visual, and fun</span></li>
+            <li>Collaborating with creative, driven people</li>
+            <li>Learning new tech and sharing what I know</li>
+          </ul>
+          <b>Outside of code:</b> 🎸 Guitar, 🏋️‍♂️ working out, 🎮 video games, 📚 reading sci-fi & tech blogs.<br />
+          <span className="bio-highlight">Always looking for ways to blend creativity and code!</span>
+        </motion.p>
         </motion.div>
       </Section>
 
@@ -179,6 +227,9 @@ function App() {
                 transition={{ type: 'spring', stiffness: 200 }}
               >
                 <div className="project-card-content">
+                  {project.image && (
+                    <img src={project.image} alt={project.title} className="project-image" />
+                  )}
                   <h3>{project.title}</h3>
                   <p>{project.description}</p>
                   <div className="project-tech">
