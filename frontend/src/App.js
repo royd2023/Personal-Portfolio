@@ -1,48 +1,16 @@
 import './App.css';
 import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import RoyAI from './components/RoyAI';
 import './components/RoyAI.css';
 import { FaGithub } from 'react-icons/fa';
 import { FaReact, FaNodeJs, FaDatabase, FaPython, FaJava, FaJs, FaHtml5, FaCss3Alt, FaDocker, FaGitAlt } from 'react-icons/fa';
 import { SiExpress, SiFlask, SiPostgresql, SiJupyter, SiCplusplus, SiC, SiArduino, SiFirebase, SiTailwindcss, SiGnubash, SiGodotengine, SiPandas, SiMongodb, SiTypescript, SiGnubash as SiBash, SiGnubash as SiBatch, SiGnubash as SiMakefile } from 'react-icons/si';
 
-// Animation variants
-const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: "easeOut"
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.5
-    }
-  }
-};
-
 function Section({ children, id }) {
   return (
-    <motion.section
-      id={id}
-      className="full-screen-section"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-      variants={sectionVariants}
-    >
+    <section id={id} className="full-screen-section">
       {children}
-    </motion.section>
+    </section>
   );
 }
 
@@ -89,8 +57,6 @@ const projects = [
     link: 'https://github.com/royd2023/DataI-O-2025',
     image: null
   }
-  
-  
 ];
 
 const languageList = [
@@ -105,66 +71,42 @@ const languageList = [
 ];
 
 function App() {
-  const { scrollYProgress } = useScroll();
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-
   return (
     <div className="App">
-      <motion.div 
-        className="top-bar"
-        style={{ opacity }}
-      >
-        <motion.h1 
-          className="top-left-name"
-          variants={itemVariants}
-        >
-          Roy Dinh
-        </motion.h1>
+      <div className="top-bar">
+        <h1 className="top-left-name">Roy Dinh</h1>
         <div className="top-bar-links">
-          <motion.a
+          <a
             href="https://github.com/royd2023"
             target="_blank"
             rel="noopener noreferrer"
             className="github-link"
-            variants={itemVariants}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
           >
             <FaGithub />
             <span>GitHub</span>
-          </motion.a>
-          <motion.a
+          </a>
+          <a
             href="https://drive.google.com/file/d/1kBNecPuSunH1yplM9ANGcgYTxrLY1uPv/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="github-link"
-            variants={itemVariants}
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.97 }}
           >
             Resume
-          </motion.a>
+          </a>
         </div>
-      </motion.div>
+      </div>
 
       <Section id="intro">
-        <motion.div className="section-content">
-          <motion.header variants={itemVariants}>
+        <div className="section-content">
+          <header>
             <h1>Hi, I'm Roy</h1>
             <p>
               I aspire to work in the field of Software Engineering, specializing in Artificial Intelligence!
             </p>
-          </motion.header>
+          </header>
 
-          <motion.div 
-            className="profile-picture-container"
-            variants={itemVariants}
-          >
-            <motion.div 
-              className="profile-picture"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+          <div className="profile-picture-container">
+            <div className="profile-picture">
               <img 
                 src="20230429_185703.jpg" 
                 alt="Roy Dinh"
@@ -173,59 +115,47 @@ function App() {
                   e.target.src = '20230429_185703.jpg';
                 }}
               />
-            </motion.div>
-          </motion.div>
-          <motion.div className="extra-photos-row" variants={itemVariants}>
-            {["20230430_171031(1).jpg", "20230430_174045.jpg"].map((filename, idx) => (
-              <div className="extra-photo-frame" key={filename}>
-                <img src={filename} alt={`Roy extra ${idx + 1}`} />
-              </div>
-            ))}
-          </motion.div>
-          <motion.p variants={itemVariants} className="intro-bio">
-          <span className="bio-greeting">👋 Hi, I'm <b>Roy Dinh</b>!</span><br /><br />
-          <b><span className="osu-uni"><img src="osu-logo.svg" alt="Ohio State University Logo" className="osu-icon" /> CS @ The Ohio State University (Class of 2027)</span></b> <br />
-          <span className="bio-highlight">Web dev, game design, and educational tech enthusiast.</span>
-          <br /><br />
-          <b>What I'm building:</b>
-          <ul className="bio-list">
-            <li>
-              <b>Boxure</b>: A fullstack e-commerce platform for blind box collectibles.<br />
-              <span className="bio-tech">Node.js, Express, PostgreSQL, Firebase, Stripe, React</span>
-            </li>
-            <li>
-              <b>Code 4 Community</b>: Volunteering to teach programming through games.<br />
-              <span className="bio-tech">Phaser, JavaScript, HTML, CSS</span>
-            </li>
-            <li>
-              <b>OSU Underwater Robotics Team</b>: GUI and web interface contributions.
-            </li>
-          </ul>
-          <b>What I love:</b>
-          <ul className="bio-list">
-            <li>Building things that are <span className="bio-highlight">engaging, visual, and fun</span></li>
-            <li>Collaborating with creative, driven people</li>
-            <li>Learning new tech and sharing what I know</li>
-          </ul>
-          <b>Outside of code:</b> 🎸 Guitar, 🏋️‍♂️ working out, 🎮 video games, 📚 reading sci-fi & tech blogs.<br />
-          <span className="bio-highlight">Always looking for ways to blend creativity and code!</span>
-        </motion.p>
-        </motion.div>
+            </div>
+          </div>
+
+          <p className="intro-bio">
+            <span className="bio-greeting">👋 Hi, I'm <b>Roy Dinh</b>!</span><br /><br />
+            <b><span className="osu-uni"><img src="osu-logo.svg" alt="Ohio State University Logo" className="osu-icon" /> CS @ The Ohio State University (Class of 2027)</span></b> <br />
+            <span className="bio-highlight">Web dev, game design, and educational tech enthusiast.</span>
+            <br /><br />
+            <b>What I'm building/ Involved in:</b>
+            <ul className="bio-list">
+              <li>
+                <b>Boxure</b>: A fullstack e-commerce platform for blind box collectibles.<br />
+                <span className="bio-tech">Node.js, Express, PostgreSQL, Supabase, Stripe, React</span>
+              </li>
+              <li>
+                <b>Code 4 Community</b>: Volunteering to teach programming through games.<br />
+                <span className="bio-tech">Phaser, JavaScript, HTML, CSS</span>
+              </li>
+              <li>
+                <b>OSU Underwater Robotics Team</b>: GUI and web interface contributions.<br />
+                <span className="bio-tech">Python, Flask, React, ROS2</span>
+              </li>
+            </ul>
+            <b>What I love:</b>
+            <ul className="bio-list">
+              <li>Building things that are <span className="bio-highlight">engaging, visual, and fun</span></li>
+              <li>Collaborating with creative, driven people</li>
+              <li>Learning new tech and sharing what I know</li>
+            </ul>
+            <b>Outside of code:</b> 🎸 Guitar, 🏋️‍♂️ working out, 🎮 video games, 📚 reading sci-fi & tech blogs.<br />
+            <span className="bio-highlight">Always looking for ways to blend creativity and code!</span>
+          </p>
+        </div>
       </Section>
 
-      {/* Projects Section */}
       <Section id="projects">
-        <motion.div className="section-content projects-section">
+        <div className="section-content projects-section">
           <h2>Projects</h2>
-          <motion.div className="projects-carousel" initial="hidden" whileInView="visible" viewport={{ once: true }}>
+          <div className="projects-carousel">
             {projects.map((project, idx) => (
-              <motion.div
-                className="project-card"
-                key={project.title}
-                variants={itemVariants}
-                whileHover={{ scale: 1.05, boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
-                transition={{ type: 'spring', stiffness: 200 }}
-              >
+              <div className="project-card" key={project.title}>
                 <div className="project-card-content">
                   {project.image && (
                     <img src={project.image} alt={project.title} className="project-image" />
@@ -241,32 +171,30 @@ function App() {
                     <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">View Repo</a>
                   )}
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </Section>
 
       <Section id="languages">
-        <motion.div className="section-content">
+        <div className="section-content">
           <h2>Languages</h2>
-          <motion.ul variants={itemVariants}>
+          <ul>
             {languageList.map(({ name, icon }) => (
-              <motion.li key={name} variants={itemVariants} className="language-li">
+              <li key={name} className="language-li">
                 {icon && <span className="lang-icon">{icon}</span>}
                 {name}
-              </motion.li>
+              </li>
             ))}
-          </motion.ul>
-        </motion.div>
+          </ul>
+        </div>
       </Section>
 
-      {/* Tech Stack Section */}
       <Section id="tech-stack">
-        <motion.div className="section-content tech-stack-section">
+        <div className="section-content tech-stack-section">
           <h2>Tech Stack</h2>
           <div className="tech-stack-boxes">
-            {/* Frontend */}
             <div className="tech-box">
               <h3>Frontend</h3>
               <div className="tech-icons">
@@ -283,23 +211,19 @@ function App() {
                 <li>JavaScript</li>
               </ul>
             </div>
-            {/* Backend */}
             <div className="tech-box">
               <h3>Backend</h3>
               <div className="tech-icons">
                 <FaNodeJs title="Node.js" />
                 <SiExpress title="Express.js" />
                 <SiFlask title="Flask" />
-                <SiGnubash title="Bash" />
               </div>
               <ul>
                 <li>Node.js</li>
                 <li>Express.js</li>
                 <li>Flask</li>
-                <li>Bash</li>
               </ul>
             </div>
-            {/* Database */}
             <div className="tech-box">
               <h3>Database</h3>
               <div className="tech-icons">
@@ -314,36 +238,34 @@ function App() {
               </ul>
             </div>
           </div>
-        </motion.div>
+        </div>
       </Section>
 
       <Section id="tools">
-        <motion.div className="section-content">
+        <div className="section-content">
           <h2>Tools</h2>
-          <motion.ul variants={itemVariants}>
+          <ul>
             {['Git', 'Docker', 'VS Code', 'Jupyter Notebook'].map((tool) => (
-              <motion.li key={tool} variants={itemVariants}>
+              <li key={tool}>
                 {tool}
-              </motion.li>
+              </li>
             ))}
-          </motion.ul>
-        </motion.div>
+          </ul>
+        </div>
       </Section>
 
       <Section id="learning">
-        <motion.div className="section-content">
+        <div className="section-content">
           <h2>Things I am learning</h2>
-          <motion.ul variants={itemVariants}>
+          <ul>
             {['Full Stack Development', 'TensorFlow', 'PyTorch', 'OpenAI API'].map((tool) => (
-              <motion.li key={tool} variants={itemVariants}>
+              <li key={tool}>
                 {tool}
-              </motion.li>
+              </li>
             ))}
-          </motion.ul>
-        </motion.div>
+          </ul>
+        </div>
       </Section>
-
-      
 
       <RoyAI />
     </div>
