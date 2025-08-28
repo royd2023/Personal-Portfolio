@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import RoyAI from './components/RoyAI';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import { FaReact, FaNodeJs, FaDatabase, FaPython, FaJava, FaJs, FaHtml5, FaCss3Alt, FaDocker, FaGitAlt } from 'react-icons/fa';
@@ -51,6 +51,125 @@ const projects = [
 ];
 
 function App() {
+  const projectsRef = useRef(null);
+  const skillsRef = useRef(null);
+  const contactRef = useRef(null);
+  const projectsTitleRef = useRef(null);
+  const skillsTitleRef = useRef(null);
+  const contactTitleRef = useRef(null);
+  const contactContentRef = useRef(null);
+  const heroRef = useRef(null);
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+        }
+      });
+    }, observerOptions);
+
+    // Observe section titles
+    if (projectsTitleRef.current) observer.observe(projectsTitleRef.current);
+    if (skillsTitleRef.current) observer.observe(skillsTitleRef.current);
+    if (contactTitleRef.current) observer.observe(contactTitleRef.current);
+
+    // Observe sections for line animations
+    if (projectsRef.current) observer.observe(projectsRef.current);
+    if (skillsRef.current) observer.observe(skillsRef.current);
+    if (contactRef.current) observer.observe(contactRef.current);
+
+    // Observe contact content
+    if (contactContentRef.current) observer.observe(contactContentRef.current);
+
+    // Observe project cards with staggered animation
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach((card, index) => {
+      card.style.transitionDelay = `${index * 0.1}s`;
+      observer.observe(card);
+    });
+
+    // Observe skill categories with staggered animation
+    const skillCategories = document.querySelectorAll('.skill-category');
+    skillCategories.forEach((category, index) => {
+      category.style.transitionDelay = `${index * 0.1}s`;
+      observer.observe(category);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Mouse cursor tracking for interactive lines
+  useEffect(() => {
+    if (!heroRef.current) return;
+
+    const hero = heroRef.current;
+    const shapes = hero.querySelectorAll('.shape');
+    let animationFrameId;
+
+    const handleMouseMove = (e) => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
+      animationFrameId = requestAnimationFrame(() => {
+        const rect = hero.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        shapes.forEach((shape) => {
+          const shapeRect = shape.getBoundingClientRect();
+          const shapeX = shapeRect.left - rect.left + shapeRect.width / 2;
+          const shapeY = shapeRect.top - rect.top + shapeRect.height / 2;
+
+          // Calculate distance from mouse to shape center
+          const distance = Math.sqrt(
+            Math.pow(mouseX - shapeX, 2) + Math.pow(mouseY - shapeY, 2)
+          );
+
+          // Remove all cursor classes
+          shape.classList.remove('cursor-near', 'cursor-close', 'cursor-far');
+
+          // Apply appropriate class based on distance
+          if (distance < 80) {
+            // Very close - brightest
+            shape.classList.add('cursor-near');
+          } else if (distance < 150) {
+            // Close - medium brightness
+            shape.classList.add('cursor-close');
+          } else if (distance < 250) {
+            // Far - dimmer
+            shape.classList.add('cursor-far');
+          }
+          // Beyond 250px - default state (already handled by CSS)
+        });
+      });
+    };
+
+    const handleMouseLeave = () => {
+      // Reset all shapes to default state when mouse leaves hero section
+      shapes.forEach((shape) => {
+        shape.classList.remove('cursor-near', 'cursor-close', 'cursor-far');
+      });
+    };
+
+    hero.addEventListener('mousemove', handleMouseMove);
+    hero.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      hero.removeEventListener('mousemove', handleMouseMove);
+      hero.removeEventListener('mouseleave', handleMouseLeave);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, []);
+
   return (
     <div className="app-container">
       {/* Header */}
@@ -69,7 +188,7 @@ function App() {
       </header>
 
       {/* Hero Section */}
-      <section className="hero">
+      <section className="hero" ref={heroRef}>
         <div className="hero-background">
           <div className="floating-shapes">
             <div className="shape shape-1"></div>
@@ -77,6 +196,41 @@ function App() {
             <div className="shape shape-3"></div>
             <div className="shape shape-4"></div>
             <div className="shape shape-5"></div>
+            <div className="shape shape-6"></div>
+            <div className="shape shape-7"></div>
+            <div className="shape shape-8"></div>
+            <div className="shape shape-9"></div>
+            <div className="shape shape-10"></div>
+            <div className="shape shape-11"></div>
+            <div className="shape shape-12"></div>
+            <div className="shape shape-13"></div>
+            <div className="shape shape-14"></div>
+            <div className="shape shape-15"></div>
+            <div className="shape shape-16"></div>
+            <div className="shape shape-17"></div>
+            <div className="shape shape-18"></div>
+            <div className="shape shape-19"></div>
+            <div className="shape shape-20"></div>
+            <div className="shape shape-21"></div>
+            <div className="shape shape-22"></div>
+            <div className="shape shape-23"></div>
+            <div className="shape shape-24"></div>
+            <div className="shape shape-25"></div>
+            <div className="shape shape-26"></div>
+            <div className="shape shape-27"></div>
+            <div className="shape shape-28"></div>
+            <div className="shape shape-29"></div>
+            <div className="shape shape-30"></div>
+            <div className="shape shape-31"></div>
+            <div className="shape shape-32"></div>
+            <div className="shape shape-33"></div>
+            <div className="shape shape-34"></div>
+            <div className="shape shape-35"></div>
+            <div className="shape shape-36"></div>
+            <div className="shape shape-37"></div>
+            <div className="shape shape-38"></div>
+            <div className="shape shape-39"></div>
+            <div className="shape shape-40"></div>
           </div>
         </div>
         <div className="container">
@@ -112,9 +266,9 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section className="projects-section">
+      <section className="projects-section" ref={projectsRef}>
         <div className="container">
-          <h2 className="section-title">Projects</h2>
+          <h2 className="section-title" ref={projectsTitleRef}>Projects</h2>
           <div className="projects-grid">
             {projects.map((project, index) => (
               <div key={project.title} className="project-card">
@@ -149,9 +303,9 @@ function App() {
       </section>
 
       {/* Skills Section */}
-      <section className="skills-section">
+      <section className="skills-section" ref={skillsRef}>
         <div className="container">
-          <h2 className="section-title">Skills & Technologies</h2>
+          <h2 className="section-title" ref={skillsTitleRef}>Skills & Technologies</h2>
           <div className="skills-grid">
             <div className="skill-category">
               <h3>Languages</h3>
@@ -201,10 +355,10 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section className="contact-section">
+      <section className="contact-section" ref={contactRef}>
         <div className="container">
-          <div className="contact-content">
-            <h2 className="section-title">Let's Work Together</h2>
+          <div className="contact-content" ref={contactContentRef}>
+            <h2 className="section-title" ref={contactTitleRef}>Let's Work Together</h2>
             <p className="contact-description">
               Have a question or want to work together? I'm always interested in new opportunities and collaborations.
             </p>
