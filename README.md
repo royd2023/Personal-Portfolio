@@ -5,3 +5,5 @@ Features:
 - info about me
 - my projects
 
+todo:
+make cleaner animations while scrolling?
