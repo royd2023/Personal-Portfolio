@@ -101,6 +101,12 @@ a, button, .project-link, .nav-link, .contact-link {
   align-items: center;
 }
 
+/* Ensure hero content sits above decorative shapes */
+.hero-content {
+  position: relative;
+  z-index: 20; /* higher than shapes' z-index so images and text are on top */
+}
+
 .hero-title {
   font-size: 3.5rem;
   font-weight: 800;
@@ -465,9 +471,7 @@ a, button, .project-link, .nav-link, .contact-link {
   border: 1px solid var(--border-color);
 }
 
-.project-links {
-  /* Remove margin-top: auto */
-}
+
 
 /* Make cards more uniform without forcing equal heights */
 @media (min-width: 769px) {
@@ -493,6 +497,11 @@ a, button, .project-link, .nav-link, .contact-link {
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+/* Place background shapes behind main hero content */
+.hero-background {
+  z-index: 0;
 }
 
 .floating-shapes {
@@ -1450,10 +1459,7 @@ html {
   }
 }
 
-/* Remove old hover effect since we now have cursor tracking */
-.hero:hover .shape {
-  /* Remove this since we now have dynamic cursor tracking */
-}
+/* Old hover effect removed: cursor tracking now controls shape states */
 
 /* Add subtle pulsing animation to alternating groups */
 .shape-1, .shape-3, .shape-5, .shape-7, .shape-9, .shape-11, .shape-13, .shape-15, .shape-17, .shape-19, .shape-21, .shape-23, .shape-25, .shape-27, .shape-29, .shape-31, .shape-33, .shape-35, .shape-37, .shape-39 {

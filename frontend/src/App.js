@@ -180,7 +180,7 @@ function App() {
             <a href="https://github.com/royd2023" target="_blank" rel="noopener noreferrer" className="nav-link">
               <FaGithub /> GitHub
             </a>
-            <a href="https://drive.google.com/file/d/1kBNecPuSunH1yplM9ANGcgYTxrLY1uPv/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="nav-link">
+            <a href="https://drive.google.com/file/d/1pK-H7N1TVTU82HiGQTP0eTQjLHxqjDGE/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="nav-link">
               Resume
             </a>
           </nav>
