@@ -2294,6 +2294,68 @@ html {
   .project-card:hover {
     transform: translateY(-10px) scale(1.01);
   }
+
+  /* Mobile Performance Optimizations for Dyson Spheres */
+
+  /* Hide some particles on mobile to reduce load */
+  .particle:nth-child(n+11) {
+    display: none;
+  }
+
+  /* Simplify Dyson sphere animations on mobile */
+  .sphere-container {
+    animation: sphereRotateMobile 30s linear infinite;
+  }
+
+  .dyson-sphere.hover-active .sphere-container {
+    animation: sphereRotateMobile 30s linear infinite;
+  }
+
+  @keyframes sphereRotateMobile {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+
+  /* Hide every other ring on mobile to reduce render load */
+  .latitude-ring:nth-child(2n),
+  .longitude-ring:nth-child(2n) {
+    display: none;
+  }
+
+  /* Reduce opacity and remove heavy effects on mobile */
+  .dyson-sphere {
+    opacity: 0.5;
+  }
+
+  .dyson-sphere.hover-active .sphere-container {
+    filter: none;
+  }
+
+  .latitude-ring,
+  .longitude-ring {
+    border-width: 1px;
+    box-shadow: none;
+  }
+
+  .dyson-sphere.hover-active .latitude-ring,
+  .dyson-sphere.hover-active .longitude-ring {
+    box-shadow: none;
+  }
+
+  /* Reduce orb blur on mobile */
+  .orb {
+    filter: blur(40px);
+    opacity: 0.1;
+  }
+
+  /* Disable dyson float animation on mobile */
+  .dyson-sphere {
+    animation: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -2305,6 +2367,51 @@ html {
     width: 40px;
     height: 40px;
     font-size: 1.2rem;
+  }
+
+  /* Extra small screens - reduce Dyson spheres even more */
+  .dyson-large {
+    width: 200px;
+    height: 200px;
+  }
+
+  .dyson-large .latitude-ring,
+  .dyson-large .longitude-ring {
+    width: 200px;
+    height: 200px;
+    margin-left: -100px;
+    margin-top: -100px;
+  }
+
+  .dyson-medium {
+    width: 150px;
+    height: 150px;
+  }
+
+  .dyson-medium .latitude-ring,
+  .dyson-medium .longitude-ring {
+    width: 150px;
+    height: 150px;
+    margin-left: -75px;
+    margin-top: -75px;
+  }
+
+  .dyson-small {
+    width: 100px;
+    height: 100px;
+  }
+
+  .dyson-small .latitude-ring,
+  .dyson-small .longitude-ring {
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+    margin-top: -50px;
+  }
+
+  /* Hide more particles on small screens */
+  .particle:nth-child(n+8) {
+    display: none;
   }
 }
 
