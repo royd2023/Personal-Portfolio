@@ -1,9 +1,8 @@
 import './App.css';
 import React, { useEffect, useRef } from 'react';
-import RoyAI from './components/RoyAI';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import { FaReact, FaNodeJs, FaDatabase, FaPython, FaJava, FaJs, FaHtml5, FaCss3Alt, FaDocker, FaGitAlt } from 'react-icons/fa';
-import { SiExpress, SiFlask, SiPostgresql, SiJupyter, SiCplusplus, SiC, SiArduino, SiFirebase, SiTailwindcss, SiGodotengine, SiNextdotjs, SiStripe, SiSupabase, SiYolo } from 'react-icons/si';
+import { SiExpress, SiFlask, SiPostgresql, SiJupyter, SiCplusplus, SiC, SiArduino, SiFirebase, SiTailwindcss, SiGodotengine, SiNextdotjs, SiStripe, SiSupabase } from 'react-icons/si';
 
 const projects = [
   {
@@ -59,6 +58,39 @@ function App() {
   const contactTitleRef = useRef(null);
   const contactContentRef = useRef(null);
   const heroRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = React.useState(0);
+  const [showBackToTop, setShowBackToTop] = React.useState(false);
+  const [cursorPosition, setCursorPosition] = React.useState({ x: 0, y: 0 });
+  const [parallaxOffset, setParallaxOffset] = React.useState(0);
+
+  // Scroll progress and parallax effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const progress = (scrollTop / scrollHeight) * 100;
+      setScrollProgress(progress);
+
+      // Show back to top button after scrolling down
+      setShowBackToTop(scrollTop > 500);
+
+      // Parallax effect for hero background
+      setParallaxOffset(scrollTop * 0.5);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Custom cursor tracking
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setCursorPosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   useEffect(() => {
     const observerOptions = {
@@ -104,12 +136,13 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  // Mouse cursor tracking for interactive lines
+  // Mouse cursor tracking for interactive particles
   useEffect(() => {
     if (!heroRef.current) return;
 
     const hero = heroRef.current;
-    const shapes = hero.querySelectorAll('.shape');
+    const particles = hero.querySelectorAll('.particle');
+    const geoShapes = hero.querySelectorAll('.geo-shape');
     let animationFrameId;
 
     const handleMouseMove = (e) => {
@@ -122,39 +155,52 @@ function App() {
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
 
-        shapes.forEach((shape) => {
+        // Make particles react to cursor
+        particles.forEach((particle) => {
+          const particleRect = particle.getBoundingClientRect();
+          const particleX = particleRect.left - rect.left + particleRect.width / 2;
+          const particleY = particleRect.top - rect.top + particleRect.height / 2;
+
+          const distance = Math.sqrt(
+            Math.pow(mouseX - particleX, 2) + Math.pow(mouseY - particleY, 2)
+          );
+
+          if (distance < 150) {
+            const scale = 1 + (150 - distance) / 150;
+            particle.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            particle.style.opacity = '1';
+          } else {
+            particle.style.transform = 'translate(-50%, -50%) scale(1)';
+            particle.style.opacity = '0.6';
+          }
+        });
+
+        // Make geometric shapes react to cursor
+        geoShapes.forEach((shape) => {
           const shapeRect = shape.getBoundingClientRect();
           const shapeX = shapeRect.left - rect.left + shapeRect.width / 2;
           const shapeY = shapeRect.top - rect.top + shapeRect.height / 2;
 
-          // Calculate distance from mouse to shape center
           const distance = Math.sqrt(
             Math.pow(mouseX - shapeX, 2) + Math.pow(mouseY - shapeY, 2)
           );
 
-          // Remove all cursor classes
-          shape.classList.remove('cursor-near', 'cursor-close', 'cursor-far');
-
-          // Apply appropriate class based on distance
-          if (distance < 80) {
-            // Very close - brightest
-            shape.classList.add('cursor-near');
-          } else if (distance < 150) {
-            // Close - medium brightness
-            shape.classList.add('cursor-close');
-          } else if (distance < 250) {
-            // Far - dimmer
-            shape.classList.add('cursor-far');
+          if (distance < 200) {
+            shape.classList.add('hover-active');
+          } else {
+            shape.classList.remove('hover-active');
           }
-          // Beyond 250px - default state (already handled by CSS)
         });
       });
     };
 
     const handleMouseLeave = () => {
-      // Reset all shapes to default state when mouse leaves hero section
-      shapes.forEach((shape) => {
-        shape.classList.remove('cursor-near', 'cursor-close', 'cursor-far');
+      particles.forEach((particle) => {
+        particle.style.transform = 'translate(-50%, -50%) scale(1)';
+        particle.style.opacity = '0.6';
+      });
+      geoShapes.forEach((shape) => {
+        shape.classList.remove('hover-active');
       });
     };
 
@@ -170,8 +216,31 @@ function App() {
     };
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="app-container">
+      {/* Scroll Progress Bar */}
+      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
+
+      {/* Custom Cursor Trail */}
+      <div
+        className="cursor-trail"
+        style={{
+          left: `${cursorPosition.x}px`,
+          top: `${cursorPosition.y}px`
+        }}
+      ></div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button className="back-to-top" onClick={scrollToTop} aria-label="Back to top">
+          ↑
+        </button>
+      )}
+
       {/* Header */}
       <header className="header">
         <div className="container">
@@ -189,48 +258,33 @@ function App() {
 
       {/* Hero Section */}
       <section className="hero" ref={heroRef}>
-        <div className="hero-background">
-          <div className="floating-shapes">
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
-            <div className="shape shape-3"></div>
-            <div className="shape shape-4"></div>
-            <div className="shape shape-5"></div>
-            <div className="shape shape-6"></div>
-            <div className="shape shape-7"></div>
-            <div className="shape shape-8"></div>
-            <div className="shape shape-9"></div>
-            <div className="shape shape-10"></div>
-            <div className="shape shape-11"></div>
-            <div className="shape shape-12"></div>
-            <div className="shape shape-13"></div>
-            <div className="shape shape-14"></div>
-            <div className="shape shape-15"></div>
-            <div className="shape shape-16"></div>
-            <div className="shape shape-17"></div>
-            <div className="shape shape-18"></div>
-            <div className="shape shape-19"></div>
-            <div className="shape shape-20"></div>
-            <div className="shape shape-21"></div>
-            <div className="shape shape-22"></div>
-            <div className="shape shape-23"></div>
-            <div className="shape shape-24"></div>
-            <div className="shape shape-25"></div>
-            <div className="shape shape-26"></div>
-            <div className="shape shape-27"></div>
-            <div className="shape shape-28"></div>
-            <div className="shape shape-29"></div>
-            <div className="shape shape-30"></div>
-            <div className="shape shape-31"></div>
-            <div className="shape shape-32"></div>
-            <div className="shape shape-33"></div>
-            <div className="shape shape-34"></div>
-            <div className="shape shape-35"></div>
-            <div className="shape shape-36"></div>
-            <div className="shape shape-37"></div>
-            <div className="shape shape-38"></div>
-            <div className="shape shape-39"></div>
-            <div className="shape shape-40"></div>
+        <div className="hero-background" style={{ transform: `translateY(${parallaxOffset}px)` }}>
+          {/* Animated Particles */}
+          <div className="particles">
+            {[...Array(20)].map((_, i) => (
+              <div key={i} className={`particle particle-${i + 1}`}></div>
+            ))}
+          </div>
+
+          {/* Floating Geometric Shapes */}
+          <div className="geometric-shapes">
+            <div className="geo-shape geo-circle-1"></div>
+            <div className="geo-shape geo-circle-2"></div>
+            <div className="geo-shape geo-square-1"></div>
+            <div className="geo-shape geo-square-2"></div>
+            <div className="geo-shape geo-triangle-1"></div>
+            <div className="geo-shape geo-triangle-2"></div>
+            <div className="geo-shape geo-hexagon-1"></div>
+            <div className="geo-shape geo-hexagon-2"></div>
+            <div className="geo-shape geo-ring-1"></div>
+            <div className="geo-shape geo-ring-2"></div>
+          </div>
+
+          {/* Gradient Orbs */}
+          <div className="gradient-orbs">
+            <div className="orb orb-1"></div>
+            <div className="orb orb-2"></div>
+            <div className="orb orb-3"></div>
           </div>
         </div>
         <div className="container">
@@ -240,11 +294,11 @@ function App() {
                 <span className="title-word">Full</span> <span className="title-word">Stack</span> <span className="title-word">Developer</span> <span className="title-word">&</span> <span className="title-word">CS</span> <span className="title-word">Student</span>
               </h2>
               <p className="hero-description">
-                Fully committed to the philosophy of life-long learning, I'm a full stack developer with a deep passion for JavaScript, React and all things web development. The unique combination of creativity, logic, technology and never running out of new things to discover, drives my excitement and passion for software engineering. When I'm not at my computer I like to spend my time playing guitar, working out and reading sci-fi novels.
+                Fully committed to the philosophy of life-long learning, I'm a full stack developer with a deep passion for JavaScript, React and all things web development. The unique combination of creativity, logic, technology and never running out of new things to discover, drives my excitement and passion for software engineering. 
               </p>
               <div className="hero-details">
                 <p className="detail-item"><strong>🎓 Computer Science @ The Ohio State University (Class of 2027)</strong></p>
-                <p className="detail-item"><strong>Currently:</strong> Building Boxure (e-commerce platform) • Contributing to OSU Underwater Robotics • Teaching programming through Code 4 Community</p>
+                <p className="detail-item"><strong>Currently:</strong> Building Boxure (e-commerce platform) • Contributing as undergraduate reasearch assistant • Teaching programming through Code 4 Community</p>
               </div>
             </div>
             <div className="hero-image">
@@ -375,6 +429,32 @@ function App() {
           </div>
         </div>
       </section>
+
+      {/* Footer Section */}
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-content">
+            <div className="footer-left">
+              <h3 className="footer-name">Roy Dinh</h3>
+              <p className="footer-tagline">Full Stack Developer & CS Student</p>
+            </div>
+            <div className="footer-links">
+              <a href="https://github.com/royd2023" target="_blank" rel="noopener noreferrer" className="footer-link">
+                <FaGithub /> GitHub
+              </a>
+              <a href="mailto:rdinh2023@gmail.com" className="footer-link">
+                <FaExternalLinkAlt /> Email
+              </a>
+              <a href="https://drive.google.com/file/d/1pK-H7N1TVTU82HiGQTP0eTQjLHxqjDGE/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="footer-link">
+                Resume
+              </a>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>&copy; 2025 Roy Dinh. Built with React.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
