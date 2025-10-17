@@ -136,13 +136,13 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  // Mouse cursor tracking for interactive particles
+  // Mouse cursor tracking for interactive particles and Dyson spheres
   useEffect(() => {
     if (!heroRef.current) return;
 
     const hero = heroRef.current;
     const particles = hero.querySelectorAll('.particle');
-    const geoShapes = hero.querySelectorAll('.geo-shape');
+    const dysonSpheres = hero.querySelectorAll('.dyson-sphere');
     let animationFrameId;
 
     const handleMouseMove = (e) => {
@@ -175,20 +175,20 @@ function App() {
           }
         });
 
-        // Make geometric shapes react to cursor
-        geoShapes.forEach((shape) => {
-          const shapeRect = shape.getBoundingClientRect();
-          const shapeX = shapeRect.left - rect.left + shapeRect.width / 2;
-          const shapeY = shapeRect.top - rect.top + shapeRect.height / 2;
+        // Make Dyson spheres react to cursor
+        dysonSpheres.forEach((sphere) => {
+          const sphereRect = sphere.getBoundingClientRect();
+          const sphereX = sphereRect.left - rect.left + sphereRect.width / 2;
+          const sphereY = sphereRect.top - rect.top + sphereRect.height / 2;
 
           const distance = Math.sqrt(
-            Math.pow(mouseX - shapeX, 2) + Math.pow(mouseY - shapeY, 2)
+            Math.pow(mouseX - sphereX, 2) + Math.pow(mouseY - sphereY, 2)
           );
 
-          if (distance < 200) {
-            shape.classList.add('hover-active');
+          if (distance < 250) {
+            sphere.classList.add('hover-active');
           } else {
-            shape.classList.remove('hover-active');
+            sphere.classList.remove('hover-active');
           }
         });
       });
@@ -199,8 +199,8 @@ function App() {
         particle.style.transform = 'translate(-50%, -50%) scale(1)';
         particle.style.opacity = '0.6';
       });
-      geoShapes.forEach((shape) => {
-        shape.classList.remove('hover-active');
+      dysonSpheres.forEach((sphere) => {
+        sphere.classList.remove('hover-active');
       });
     };
 
@@ -266,18 +266,43 @@ function App() {
             ))}
           </div>
 
-          {/* Floating Geometric Shapes */}
-          <div className="geometric-shapes">
-            <div className="geo-shape geo-circle-1"></div>
-            <div className="geo-shape geo-circle-2"></div>
-            <div className="geo-shape geo-square-1"></div>
-            <div className="geo-shape geo-square-2"></div>
-            <div className="geo-shape geo-triangle-1"></div>
-            <div className="geo-shape geo-triangle-2"></div>
-            <div className="geo-shape geo-hexagon-1"></div>
-            <div className="geo-shape geo-hexagon-2"></div>
-            <div className="geo-shape geo-ring-1"></div>
-            <div className="geo-shape geo-ring-2"></div>
+          {/* Dyson Sphere Wireframes */}
+          <div className="dyson-spheres">
+            {/* Large Dyson Sphere */}
+            <div className="dyson-sphere dyson-large">
+              <div className="sphere-container">
+                {[...Array(12)].map((_, i) => (
+                  <div key={`lat-${i}`} className="latitude-ring" style={{ '--ring-index': i }}></div>
+                ))}
+                {[...Array(12)].map((_, i) => (
+                  <div key={`lon-${i}`} className="longitude-ring" style={{ '--ring-index': i }}></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Medium Dyson Sphere */}
+            <div className="dyson-sphere dyson-medium">
+              <div className="sphere-container">
+                {[...Array(10)].map((_, i) => (
+                  <div key={`lat-${i}`} className="latitude-ring" style={{ '--ring-index': i }}></div>
+                ))}
+                {[...Array(10)].map((_, i) => (
+                  <div key={`lon-${i}`} className="longitude-ring" style={{ '--ring-index': i }}></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Small Dyson Sphere */}
+            <div className="dyson-sphere dyson-small">
+              <div className="sphere-container">
+                {[...Array(8)].map((_, i) => (
+                  <div key={`lat-${i}`} className="latitude-ring" style={{ '--ring-index': i }}></div>
+                ))}
+                {[...Array(8)].map((_, i) => (
+                  <div key={`lon-${i}`} className="longitude-ring" style={{ '--ring-index': i }}></div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Gradient Orbs */}
